@@ -1,1 +1,1 @@
-# BlazorHybridApp
+# SubastaMaestra.Mobile
