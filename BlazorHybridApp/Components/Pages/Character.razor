@@ -1,0 +1,30 @@
+﻿@page "/characters"
+@using BlazorHybridApp.Services
+@using BlazorHybridApp.Models
+@inject IRickAndMortyService service
+
+<h3>Personajes</h3>
+
+@if (_rickAndMorty == null)
+{
+    <p><em> Cargando...</em></p>
+}
+else
+{
+    foreach(var item in _rickAndMorty.results)
+    {
+        <div>
+            <h4>@item.name</h4>
+            <img src="@item.image"/>
+        </div>
+    }
+}
+
+@code {
+    private RickAndMorty? _rickAndMorty;
+    protected override async Task OnInitializedAsync() // se ejecuta cada vez que se inicia la APP
+    {
+        _rickAndMorty = await service.GetRickAndMortyAsync(); // trae
+
+    }
+}
