@@ -1,0 +1,61 @@
+﻿@page "/results"
+
+@using BlazorHybridApp.Models.DTO
+@using BlazorHybridApp.Services.Auction;
+@inject IAuctionService _auctionService;
+@* acceso de la url *@
+
+
+<h3>AuctionsResults</h3>
+
+
+
+@if (auctionList == null)
+{
+    <div class="alert alert-info" role="alert">
+        No hay subastas que mostrar.
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            @foreach (var item in auctionList)
+            {
+                
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvF9ah7jy4iHa74zZ7Lw6z0PF_9uwgpGAVMg&s" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Título: @item.Title</h5>
+                            @if(item.State == Models.AuctionState.Closed)
+                            {
+                                <p class="card-text">Estado: <span style="color: red">Cerrado </span></p>
+                            }
+                            <p class="card-text">Productos: @item.Products.Count</p>
+
+                            @* <a class="btn btn-primary btn-sm" @href="string.format(" auction /{0}", id)">ver más</a> *@
+                            @* <NavLink class="btn btn-primary btn-sm" href="auction/{@item.Id}">ver más</NavLink> *@
+                            <a class="btn btn-primary btn-sm" href="@($"auction/{item.Id}")"> Ver resultado</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+}
+
+
+@code {
+    List<AuctionDTO> auctionList = new List<AuctionDTO>();
+
+    // metodo que se ejecuta al renderizar la pagina
+    protected override async Task OnInitializedAsync()
+    {
+        auctionList = await _auctionService.GetAllResults();
+    }
+
+}

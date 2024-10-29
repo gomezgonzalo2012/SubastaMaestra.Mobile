@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-
+using BlazorHybridApp.Models.DTO;
 namespace BlazorHybridApp.Models.DTO
 {
     public class ProductDTO
@@ -15,11 +15,12 @@ namespace BlazorHybridApp.Models.DTO
         public string Name { get; set; }
         public ProductConditions? Condition { get; set; } // condicion
         public float InitialPrice { get; set; }
-        public float? FinalPrice { get; set; } = 0;
+        public float FinalPrice { get; set; } = 0;
         public string? ImgUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? Description { get; set; }
         public int NumberOfOffers { get; set; }
+        public ProductState CurrentState { get; set; }
         public int CategoryId { get; set; }
         public int SellerId { get; set; }
         public UserDTO? Seller { get; set; }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SubastaMaestra.Entities.Enums
+namespace BlazorHybridApp.Models
 {
     
     public enum ProductConditions

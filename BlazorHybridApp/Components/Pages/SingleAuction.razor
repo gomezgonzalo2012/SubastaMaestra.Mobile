@@ -1,0 +1,81 @@
+﻿@page "/auction/{id:int}"
+@using BlazorHybridApp.Models.DTO;
+@using BlazorHybridApp.Services.Auction;
+@using BlazorHybridApp.Components.components;
+
+
+@inject IAuctionService _auctionService;
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private AuctionDTO? auction;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        auction = await _auctionService.GetByIdAsync(Id);
+    }
+}
+
+@if (auction != null)
+
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>@auction.Title</h1>
+                <p>Cierre: @auction.FinishDate.ToString("dd/MM/yyyy, HH:mm") hs</p>
+            </div>
+            <div class="col text-end">
+                <a class="btn btn-primary" href="#">Publicar un producto</a>
+            </div>
+        </div>
+
+        <div class="row">
+            @if(auction.Products != null)
+            {
+                @foreach (var product in auction.Products)
+                {
+                    if (product.CurrentState == Models.ProductState.Sold || product.CurrentState == Models.ProductState.Disabled)
+                    {
+                        <SoldProduct product=@product />
+                    }
+                    else if (product.CurrentState == Models.ProductState.Active)
+                    {
+                        <div class="col-md-3">
+                            <div class="card mb-4">
+                                @if (product.ImgUrl != null)
+                                {
+                                    <img src="@product.ImgUrl" class="card-img-top" alt="Imagen de Producto">
+                                }
+                                else
+                                {
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgnqWjR_pgv-T6HqIi_Nb2VBp1r0RdCyXm6g&s" class="card-img-top" alt="Imagen de Producto">
+
+                                }
+                                <div class="card-body">
+                                    <h5 class="card-title">@product.Name</h5>
+                                    <p class="card-text">
+                                        Precio: @product.InitialPrice.ToString("C")<br />
+                                        Ofertas: @product.NumberOfOffers<br />
+                                        Detalles: @product.Description
+                                    </p>
+                                    <a class="btn btn-purple" href="@($"product/{product.Id}")">Ofertar</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        </div>
+    </div>
+}
+else
+{
+    <p>Cargando subasta...</p>
+}

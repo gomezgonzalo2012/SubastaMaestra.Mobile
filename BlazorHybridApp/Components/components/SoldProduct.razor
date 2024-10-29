@@ -1,0 +1,48 @@
+﻿@using BlazorHybridApp.Models.DTO
+
+
+<div class="col-md-3">
+    <div class="card mb-4">
+        @if (product.ImgUrl != null)
+        {
+            <img src="@product.ImgUrl" class="card-img-top" alt="Imagen de Producto">
+        }
+        else
+        {
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgnqWjR_pgv-T6HqIi_Nb2VBp1r0RdCyXm6g&s" class="card-img-top" alt="Imagen de Producto">
+
+        }
+        <div class="card-body">
+            <h5 class="card-title">@product.Name</h5>
+            @if(product.CurrentState == Models.ProductState.Sold)
+            {
+                <p class="card-text">Estado: <span style="color: green">Vendido</span></p>
+                <p class="card-text">
+                    Precio: @product.FinalPrice.ToString("C")<br />
+                    Ofertas: @product.NumberOfOffers<br />
+                </p>
+                @if (product.Buyer != null)
+                {
+                    <p class="card-text">Ganador: @product.Buyer.Name</p>
+
+                }
+                else
+                {
+                    <p class="card-text">Ganador: Desconocido </p>
+                }
+            }
+            @if (product.CurrentState == Models.ProductState.Disabled)
+            {
+                <p class="card-text">Estado: <span style="color: orange">Deshabilitado</span></p>
+            }
+            
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+
+    public ProductDTO? product { get; set; }
+
+}
